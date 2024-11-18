@@ -263,10 +263,6 @@ File names depend on the dataset and candidate:
 
 ---
 
-Here’s the updated **Citation** section with website links for EPFL and the LSIR Lab:
-
----
-
 ## Citation
 
 This repository is part of the research work conducted at the **LSIR Lab** (Distributed Information Systems Laboratory), **École Polytechnique Fédérale de Lausanne (EPFL)**. The LSIR Lab focuses on developing methods and systems that turn unstructured, heterogeneous and untrusted data into meaningful, reliable and understandeable information. More information about EPFL and LSIR Lab can be found at:
