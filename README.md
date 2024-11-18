@@ -204,8 +204,6 @@ The generated prompts will be saved in the `output/` directory with filenames th
 
 ---
 
-This updated **Usage** section and bash scripts make it easy to generate both zero-shot and few-shot prompts for your datasets and models. Let me know if you need further refinements! 😊
-
 ## Generated Output
 
 ### Zero-Shot Output
