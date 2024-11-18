@@ -15,7 +15,7 @@ This project is a utility for generating zero-shot and few-shot prompts for stan
     - [Few-Shot Prompt Generation](#few-shot-prompt-generation)
 6. [Generated Output](#generated-output)
 7. [Adding Support for New Models](#adding-support-for-new-models)
-8. [License](#license)
+8. [Citation](#citation)
 
 ---
 
