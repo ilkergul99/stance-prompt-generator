@@ -27,10 +27,13 @@ cat data-all-annotations/testdata-taskA-all-annotations.txt data-all-annotations
 sed 1d data-all-annotations/trainingdata-all-annotations.txt > data-all-annotations/trainingdata-all-annotations-noheader.txt
 cat data-all-annotations/trialdata-all-annotations.txt data-all-annotations/trainingdata-all-annotations-noheader.txt > data-all-annotations/traindata-all-annotations.txt
 
-# Create directory with train/test/val files
-mkdir data/semeval2016
-mv data/data-all-annotations/testdata-all-annotations.txt data/semeval2016/test.tsv
-mv data/data-all-annotations/traindata-all-annotations.txt data/semeval2016/train.tsv
+# Create directory for train/test files
+mkdir -p semeval2016
+mv data-all-annotations/testdata-all-annotations.txt semeval2016/test.tsv
+mv data-all-annotations/traindata-all-annotations.txt semeval2016/train.tsv
 
-# remove directory with raw files
-rm -fr data/data-all-annotations
+# Clean up the raw data directory
+rm -rf data-all-annotations
+
+echo "Files successfully processed and saved in TSV format in the 'semeval2016' directory."
+

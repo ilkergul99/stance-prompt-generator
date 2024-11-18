@@ -67,7 +67,7 @@ def generate_few_shot_prompts(dataset_dir: str, output_dir: str, dataset_name: s
         else:
             raise ValueError("Unsupported file format. Only CSV and TSV files are supported.")
 
-        with open(example_file, newline='', encoding='utf-8') as csvfile:
+        with open(example_file, newline='', encoding="unicode_escape") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=delimiter)
             field_mapping = {key.lower(): key for key in reader.fieldnames}
             tweet_col = field_mapping.get("tweet")
@@ -105,7 +105,7 @@ def generate_few_shot_prompts(dataset_dir: str, output_dir: str, dataset_name: s
         else:
             raise ValueError("Unsupported file format. Only CSV and TSV files are supported.")
 
-        with open(test_file, newline='', encoding='utf-8') as csvfile:
+        with open(test_file, newline='', encoding="unicode_escape") as csvfile:
             reader = csv.DictReader(csvfile, delimiter=delimiter)
             field_mapping = {key.lower(): key for key in reader.fieldnames}
             tweet_col = field_mapping.get("tweet")
