@@ -74,6 +74,10 @@ def generate_zero_shot_prompts(input_file: str, output_dir: str, dataset_name: s
                 "prompt": prompt,
             })
 
+    # Determine subdirectory based on the type of prompt
+    prompt_type = "zero_shot" if "zero_shot" in function_name else "few_shot"
+    output_dir = os.path.join(output_dir, prompt_type)
+
     # Ensure the output directory exists
     os.makedirs(output_dir, exist_ok=True)
 
@@ -107,5 +111,3 @@ if __name__ == "__main__":
         model_name=args.model_name,
         candidate_name=args.candidate_name,
     )
-
-
