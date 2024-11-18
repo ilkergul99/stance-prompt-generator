@@ -5,7 +5,7 @@
 
 ########  Zero shot and few-shot templates  ########
 
-def semeval2016_template(tweet: str, target: str) -> str:
+def semeval2016_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n"
         "### Instruction:\n"
@@ -65,7 +65,7 @@ def semeval2016_few_shot_template(tweet: str, target: str, examples: list) -> st
 
 
 ###### SemEVAL-2016 LLAMA-2 ###### 
-def semeval2016_llama2_template(tweet: str, target: str) -> str:
+def semeval2016_llama2_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "[INST] <<SYS>>\n"
         "You are an expert assistant for stance detection. "
@@ -121,7 +121,7 @@ def semeval2016_llama2_few_shot_template(tweet: str, target: str, examples: list
 
 
 ###### SemEVAL-2016 MISTRAL ###### 
-def semeval2016_mistral_template(tweet: str, target: str) -> str:
+def semeval2016_mistral_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "[INST] "
         "You are an expert assistant specializing in stance detection. "
@@ -175,7 +175,7 @@ def semeval2016_mistral_few_shot_template(tweet: str, target: str, examples: lis
 
 
 ###### SemEVAL-2016 Qwen 2 ######
-def semeval2016_qwen2_template(tweet: str, target: str) -> str:
+def semeval2016_qwen2_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "<|im_start|>system\n"
         "You are an expert assistant specializing in stance detection. Your task is to determine the stance expressed "
@@ -239,7 +239,7 @@ def semeval2016_qwen2_few_shot_template(tweet: str, target: str, examples: list)
 
 
 ###### TWITTER STANCE ChatGPT, CLAUDE, ETC. ###### 
-def twitter_stance_template(tweet: str, target: str) -> str:
+def twitter_stance_kemlm_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n"
         "### Instruction:\n"
@@ -260,7 +260,7 @@ def twitter_stance_template(tweet: str, target: str) -> str:
     return prompt
 
 
-def twitter_stance_few_shot_template(tweet: str, target: str, examples: list) -> str:
+def twitter_stance_kemlm_few_shot_template(tweet: str, target: str, examples: list) -> str:
     # Construct few-shot examples
     few_shot_examples = "\n\n".join(
         f"Example {i + 1}:\n"
@@ -296,7 +296,7 @@ def twitter_stance_few_shot_template(tweet: str, target: str, examples: list) ->
 
 
 ###### TWITTER STANCE LLAMA 2 ###### 
-def twitter_stance_llama2_template(tweet: str, target: str) -> str:
+def twitter_stance_kemlm_llama2_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "[INST] <<SYS>>\n"
         "You are an expert assistant specializing in stance detection for a given target. "
@@ -317,7 +317,7 @@ def twitter_stance_llama2_template(tweet: str, target: str) -> str:
     return prompt
 
 
-def twitter_stance_llama2_few_shot_template(tweet: str, target: str, examples: list) -> str:
+def twitter_stance_kemlm_llama2_few_shot_template(tweet: str, target: str, examples: list) -> str:
     # Construct few-shot examples
     few_shot_examples = "\n\n".join(
         f"Example {i + 1}:\n"
@@ -350,7 +350,7 @@ def twitter_stance_llama2_few_shot_template(tweet: str, target: str, examples: l
 
 
 ###### TWITTER STANCE MISTRAL ###### 
-def twitter_stance_mistral_template(tweet: str, target: str) -> str:
+def twitter_stance_kemlm_mistral_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "[INST] "
         "You are a highly capable assistant specializing in detecting the stance expressed in tweets about a specific target. "
@@ -373,7 +373,7 @@ def twitter_stance_mistral_template(tweet: str, target: str) -> str:
     return prompt
 
 
-def twitter_stance_mistral_few_shot_template(tweet: str, target: str, examples: list) -> str:
+def twitter_stance_kemlm_mistral_few_shot_template(tweet: str, target: str, examples: list) -> str:
     # Construct the few-shot examples
     few_shot_examples = "\n\n".join(
         f"Example {i + 1}:\n"
@@ -409,7 +409,7 @@ def twitter_stance_mistral_few_shot_template(tweet: str, target: str, examples: 
 
 
 ###### TWITTER STANCE QWEN 2 ###### 
-def twitter_stance_qwen2_zero_shot_template(tweet: str, target: str) -> str:
+def twitter_stance_kemlm_qwen2_zero_shot_template(tweet: str, target: str) -> str:
     prompt = (
         "<|im_start|>system\n"
         "You are an expert assistant specializing in stance detection. Your task is to analyze the given tweet and "
@@ -431,7 +431,7 @@ def twitter_stance_qwen2_zero_shot_template(tweet: str, target: str) -> str:
     )
     return prompt
 
-def twitter_stance_qwen2_few_shot_template(tweet: str, target: str, examples: list) -> str:
+def twitter_stance_kemlm_qwen2_few_shot_template(tweet: str, target: str, examples: list) -> str:
     # Construct few-shot examples in Qwen format
     few_shot_examples = "\n\n".join(
         "<|im_start|>user\n"

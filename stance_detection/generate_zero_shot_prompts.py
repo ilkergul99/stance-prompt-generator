@@ -5,19 +5,19 @@ import argparse
 from prompts import * # Import all your functions
 
 
-def generate_zero_shot_prompts(input_csv: str, output_dir: str, dataset_name: str, model_name: str, candidate_name: str = None):
+def generate_zero_shot_prompts(input_file: str, output_dir: str, dataset_name: str, model_name: str, candidate_name: str = None):
     """
-    Generates zero-shot prompts from a dataset CSV file for the specified dataset and model,
+    Generates zero-shot prompts from a dataset file (CSV or TSV) for the specified dataset and model,
     using appropriate template functions, and stores the results in a JSON file.
 
     Args:
-        input_csv (str): Path to the CSV file containing the dataset.
+        input_file (str): Path to the input dataset file (CSV or TSV).
         output_dir (str): Directory where the output JSON file will be saved.
         dataset_name (str): Name of the dataset to use for generating prompts (e.g., "PStance").
         model_name (str): Name of the model to use for generating prompts (e.g., "qwen2").
         candidate_name (str): Optional. Name of the candidate (e.g., "bernie", "biden", "trump").
     
-    The CSV must contain the following columns:
+    The input file must contain the following columns:
         - `tweet` or `Tweet`: The tweet text to analyze.
         - `target` or `Target`: The target for stance detection.
     """
@@ -30,10 +30,19 @@ def generate_zero_shot_prompts(input_csv: str, output_dir: str, dataset_name: st
     except KeyError:
         raise ValueError(f"Function '{function_name}' does not exist. Ensure it is imported correctly.")
 
+    # Determine the delimiter based on file extension
+    file_extension = os.path.splitext(input_file)[1].lower()
+    if file_extension == ".tsv":
+        delimiter = "\t"
+    elif file_extension == ".csv":
+        delimiter = ","
+    else:
+        raise ValueError("Unsupported file format. Only CSV and TSV files are supported.")
+
     # Read the dataset and generate prompts
     prompts = []
-    with open(input_csv, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
+    with open(input_file, newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=delimiter)
         
         # Normalize column names
         field_mapping = {
@@ -43,7 +52,7 @@ def generate_zero_shot_prompts(input_csv: str, output_dir: str, dataset_name: st
         target_col = field_mapping.get('target')
 
         if not tweet_col or not target_col:
-            raise ValueError("CSV must contain 'tweet' or 'Tweet' and 'target' or 'Target' columns.")
+            raise ValueError(f"The file '{input_file}' must contain 'tweet' or 'Tweet' and 'target' or 'Target' columns.")
 
         for row in reader:
             tweet = row.get(tweet_col)

@@ -3,7 +3,7 @@ import csv
 import json
 import random
 import argparse
-from stance_detection.prompts import *  # Import all your prompt functions
+from prompts import *  # Import all your prompt functions
 
 
 def generate_few_shot_prompts(dataset_dir: str, output_dir: str, dataset_name: str, model_name: str, candidate_name: str = None, examples_count: int = 3):
@@ -22,34 +22,35 @@ def generate_few_shot_prompts(dataset_dir: str, output_dir: str, dataset_name: s
     # Dynamically construct the function name
     function_name = f"{dataset_name}_{model_name}_few_shot_template"
 
-    # Check if the function exists
-    if function_name not in dir():
+    # Check if the function exists and get the reference
+    try:
+        prompt_function = globals()[function_name]
+    except KeyError:
         raise ValueError(f"Function '{function_name}' does not exist. Ensure it is imported correctly.")
-
-    # Get the appropriate function reference
-    prompt_function = eval(function_name)
 
     # Identify example and test files based on dataset
     if dataset_name in ["PStance", "twitter_stance_kemlm"]:
         if not candidate_name:
             raise ValueError(f"Candidate name must be specified for {dataset_name}.")
 
-        # Filter files for the given candidate
         example_files = [
-            f for f in os.listdir(dataset_dir)
-            if ("val" if dataset_name == "PStance" else "train") in f.lower() and candidate_name.lower() in f.lower()
+            os.path.join(dataset_dir, f) for f in os.listdir(dataset_dir)
+            if ("val" if dataset_name == "PStance" else "train") in f.lower() and
+            (candidate_name.lower() in f.lower() if candidate_name else True)
         ]
+
         test_files = [
-            f for f in os.listdir(dataset_dir)
-            if "test" in f.lower() and candidate_name.lower() in f.lower()
+            os.path.join(dataset_dir, f) for f in os.listdir(dataset_dir)
+            if "test" in f.lower() and
+            (candidate_name.lower() in f.lower() if candidate_name else True)
         ]
 
         if not example_files or not test_files:
             raise ValueError(f"No matching files found for candidate '{candidate_name}' in {dataset_dir}.")
     else:
         # Handle other datasets like semeval2016
-        example_files = [f for f in os.listdir(dataset_dir) if "train" in f.lower()]
-        test_files = [f for f in os.listdir(dataset_dir) if "test" in f.lower()]
+        example_files = [os.path.join(dataset_dir, f) for f in os.listdir(dataset_dir) if "train" in f.lower()]
+        test_files = [os.path.join(dataset_dir, f) for f in os.listdir(dataset_dir) if "test" in f.lower()]
 
         if not example_files or not test_files:
             raise ValueError(f"Train or test files missing in {dataset_dir} for {dataset_name}.")
@@ -57,8 +58,17 @@ def generate_few_shot_prompts(dataset_dir: str, output_dir: str, dataset_name: s
     # Select random examples for few-shot prompts
     examples = []
     for example_file in example_files:
-        with open(os.path.join(dataset_dir, example_file), newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
+        # Determine the delimiter based on file extension
+        file_extension = os.path.splitext(example_file)[1].lower()
+        if file_extension == ".tsv":
+            delimiter = "\t"
+        elif file_extension == ".csv":
+            delimiter = ","
+        else:
+            raise ValueError("Unsupported file format. Only CSV and TSV files are supported.")
+
+        with open(example_file, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=delimiter)
             field_mapping = {key.lower(): key for key in reader.fieldnames}
             tweet_col = field_mapping.get("tweet")
             target_col = field_mapping.get("target")
@@ -86,8 +96,17 @@ def generate_few_shot_prompts(dataset_dir: str, output_dir: str, dataset_name: s
     # Generate prompts from test files
     prompts = []
     for test_file in test_files:
-        with open(os.path.join(dataset_dir, test_file), newline='', encoding='utf-8') as csvfile:
-            reader = csv.DictReader(csvfile)
+        # Determine the delimiter based on file extension
+        file_extension = os.path.splitext(test_file)[1].lower()
+        if file_extension == ".tsv":
+            delimiter = "\t"
+        elif file_extension == ".csv":
+            delimiter = ","
+        else:
+            raise ValueError("Unsupported file format. Only CSV and TSV files are supported.")
+
+        with open(test_file, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=delimiter)
             field_mapping = {key.lower(): key for key in reader.fieldnames}
             tweet_col = field_mapping.get("tweet")
             target_col = field_mapping.get("target")
