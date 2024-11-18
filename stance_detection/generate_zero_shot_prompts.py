@@ -101,7 +101,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     generate_zero_shot_prompts(
-        input_csv=args.input_csv,
+        input_file=args.input_csv,
         output_dir=args.output_dir,
         dataset_name=args.dataset_name,
         model_name=args.model_name,
