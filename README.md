@@ -1,0 +1,1 @@
+# stance-prompt-generator
