@@ -536,7 +536,7 @@ def PStance_llama2_zero_shot_template(tweet: str, target: str) -> str:
     return prompt
 
 
-def PStance_llama2_few_shot(tweet: str, target: str, examples: list) -> str:
+def PStance_llama2_few_shot_template(tweet: str, target: str, examples: list) -> str:
     # Prepare few-shot examples as readable entries
     few_shot_examples = "\n".join(
         f"Example {i + 1}:\n"
@@ -587,7 +587,7 @@ def PStance_mistral_zero_shot_template(tweet: str, target: str) -> str:
     return prompt
 
 
-def PStance_mistral_few_shot(tweet: str, target: str, examples: list) -> str:
+def PStance_mistral_few_shot_template(tweet: str, target: str, examples: list) -> str:
     # Prepare few-shot examples as readable explanations
     few_shot_examples = "\n".join(
         f"Example {i + 1}:\n"

@@ -173,5 +173,3 @@ if __name__ == "__main__":
         candidate_name=args.candidate_name,
         examples_count=args.examples_count,
     )
-
-
